@@ -15,6 +15,7 @@ export default function Profile() {
   const [prompt, setPrompt] = useState('');
   const [file, setFile] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState('');
 
   useEffect(() => {
     const user = auth.currentUser;
@@ -75,7 +76,7 @@ export default function Profile() {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.avatarContainer}>
-          <img src={avatar || profile.avatar || 'https://via.placeholder.com/120'} alt="Avatar" className={styles.avatar} />
+          <img src={previewUrl || avatar || profile.avatar || 'https://via.placeholder.com/120'} alt="Avatar" className={styles.avatar} />
         </div>
         <div className={styles.info}>
           <div className={styles.name}>{name || profile.name || username}</div>
@@ -97,7 +98,11 @@ export default function Profile() {
           
           <div className={styles.uploadGroup}>
             <label>Nova Foto de Perfil (Arquivo)</label>
-            <input type="file" className={styles.input} onChange={e => setFile(e.target.files[0])} />
+            <input type="file" className={styles.input} onChange={e => {
+              const f = e.target.files[0];
+              setFile(f);
+              if (f) setPreviewUrl(URL.createObjectURL(f));
+            }} />
           </div>
           
           <div style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>OU</div>

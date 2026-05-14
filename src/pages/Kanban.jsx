@@ -23,7 +23,7 @@ export default function Kanban() {
         const q = query(
           collection(db, "tasks"),
           or(
-            where("user_id", "==", user.uid),
+            where("owner_id", "==", user.uid),
             where("shared_with_ids", "array-contains", user.uid)
           )
         );
@@ -110,8 +110,8 @@ export default function Kanban() {
                 })
                 .filter(t => {
                   if (filterType === 'all') return true;
-                  if (filterType === 'mine') return t.user_id === auth.currentUser?.uid;
-                  if (filterType === 'shared') return t.user_id !== auth.currentUser?.uid;
+                  if (filterType === 'mine') return t.owner_id === auth.currentUser?.uid;
+                  if (filterType === 'shared') return t.owner_id !== auth.currentUser?.uid;
                   return true;
                 }).map(task => {
                 const isOverdue = task.due_date && new Date(task.due_date) < new Date() && task.status !== 'done';
