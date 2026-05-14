@@ -1,0 +1,9 @@
+node_modules
+.env
+dist
+*.sqlite
+*.sqlite-journal
+.agent
+.gemini
+.cursor
+.vscode
